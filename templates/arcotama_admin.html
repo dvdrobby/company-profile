@@ -1,0 +1,301 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Arcotama Indo Teknik</title>
+    <link rel="shortcut icon" href="{% static 'dist/img/arcotama-favicon.ico' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="{% static 'dist/css/styles-tailwind.css' %}" />
+    <script defer src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,500;0,600;0,900;1,100;1,200;1,300;1,500;1,600;1,900&display=swap");
+    </style>
+  </head>
+  <body class="w-screen h-screen m-0 p-0" x-data>
+    <div class="grid xl:grid-cols-4 grid-cols-2 w-full mx-auto gap-2 bg-slate-100">
+      <!-- TOPBAR -->
+      <section class="md:px-16 px-5 col-span-full h-16 bg-white grid grid-cols-3 md:grid-cols-4 gap-3 md:fixed z-10 left-0 right-0 static">
+        <!-- TOPBAR HAMBURGER -->
+        <button id="hamburger-admin" class="text-slate-900" @click="handleClick">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+
+        <!-- TOPBAR SEARCH FORM -->
+        <form class="hidden col-span-1 md:col-span-2 md:flex items-center justify-end md:justify-start group">
+          <input type="text" class="rounded-l-md text-xs font-normal text-slate-800 bg-slate-100 p-2 w-64 placeholder:text-xs placeholder:font-normal focus:border-0 focus:outline-none hidden md:inline" placeholder="Search" /><button
+            type="submit"
+            class="rounded-r-md text-xs font-normal bg-transparent md:bg-slate-100 p-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:w-4 md:h-4 group-hover:scale-110 duration-200 transition-transform flex-none">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </button>
+        </form>
+        <button @click="searchBtn" class="md:hidden col-span-1 flex items-center justify-end bg-transparent text-xs p-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </button>
+
+        <!-- TOPBAR INFO AND MESSAGE -->
+        <div class="flex justify-around md:justify-end space-x-4 items-center relative">
+          <a href="" class="text-slate-900 scale-150"
+            ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+              />
+            </svg>
+            <span class="absolute p-px w-4 h-4 rounded-full bg-red-800 text-white notif flex justify-center items-center scale-75 -top-1 -right-1">12</span>
+          </a>
+          <span class="flex flex-col items-end">
+            <p class="text-xs text-slate-800">Hey, <span class="text-xs font-semibold text-slate-900">Admin</span></p>
+            <p class="hidden md:block text-xxs text-slate-800">Kamis, 22-01-2013</p>
+          </span>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside id="sidebar" class="h-screen bg-white fixed xl:static z-20 transition-transform duration-300 -translate-x-full xl:translate-x-0">
+        <!-- SIDEBAR LOGO -->
+        <div class="flex justify-around p-2 items-center h-16">
+          <div class="">
+            <img src="{% static 'dist/img/arcotama-logo.png'%}" class="w-24" alt="" />
+          </div>
+          <button @click="close" href="" class="text-slate-900 text-end xl:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- SIDEBAR MENU -->
+        <div class="mt-10">
+          <ol class="text-slate-900 text-xs font-normal tracking-wide">
+            <li class="py-3 px-6 sidebar-active">
+              <a href="" class="flex items-center space-x-4">
+                <span
+                  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 3.75H6.912a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859M12 3v8.25m0 0l-3-3m3 3l3-3"
+                    />
+                  </svg>
+                </span>
+                <h2>Dashboard</h2>
+              </a>
+            </li>
+            <li class="py-3 px-6 sidebar-hover">
+              <a href="" class="flex items-center space-x-4">
+                <span
+                  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+                    />
+                  </svg>
+                </span>
+                <h2>Edit Contact</h2>
+              </a>
+            </li>
+            <li class="py-3 px-6 sidebar-hover">
+              <a href="" class="flex items-center space-x-4">
+                <span
+                  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                    />
+                  </svg>
+                </span>
+                <h2>Add New Projects</h2>
+              </a>
+            </li>
+            <li class="py-3 px-6 sidebar-hover">
+              <a href="" class="flex items-center space-x-4">
+                <span
+                  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"
+                    />
+                  </svg>
+                </span>
+                <h2>Add News</h2>
+              </a>
+            </li>
+            <li class="py-3 px-6 sidebar-hover">
+              <a href="{% url 'index' %}" class="flex items-center space-x-4">
+                <span
+                  ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                    />
+                  </svg>
+                </span>
+                <h2>Go To Homepage</h2>
+              </a>
+            </li>
+            <li class="pr-3 text-slate-900 flex items-end sidebar-hover absolute bottom-5">
+              <a href="" class="px-6 py-3 flex items-center space-x-4">
+                <span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                  </svg>
+                </span>
+                <h2>Logout</h2>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </aside>
+
+      <!-- CONTENT -->
+      <main class="col-span-full md:col-span-3 md:grid-rows-3 mt-3 xl:mt-16 md:px-5 px-16">
+        <form id="searchbar" class="md:hidden flex items-center justify-center hide slide transition duration-300 -translate-y-[200%]">
+          <input type="text" class="rounded-l-md text-xs font-normal text-slate-800 bg-white p-2 w-64 placeholder:text-xs placeholder:font-normal focus:border-0 focus:outline-none" placeholder="Search" /><button
+            type="submit"
+            class="rounded-r-md text-xs font-normal bg-white p-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </button>
+        </form>
+
+        <h1 class="font-semibold text-3xl my-1 md:my-3 text-red-700">Dashboard</h1>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 md:my-3">
+          <div class="bg-white rounded-lg shadow-md my-2 h-40 max-w-60 p-3 pointer hover:shadow-none w-full">
+            <div class="flex justify-between mb-3">
+              <h1 class="text-slate-900">Contact</h1>
+              <a href="#" class="">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                  />
+                </svg>
+              </a>
+            </div>
+
+            <div class="text-slate-500 font-light text-xs">
+              <h3>RUKO SINPASA B 53 SUMMARECON BEKASI, West Java Indonesia</h3>
+              <h3>rinaldo.krisna@arcotama.net</h3>
+              <h3>(021) – 883 47 430</h3>
+
+              <h3>+62 81380225805</h3>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md my-2 h-40 max-w-60 p-3 pointer hover:shadow-none w-full">
+            <div class="flex justify-between mb-3">
+              <h1 class="text-slate-900"></h1>
+              <a href="#" class=""
+                ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div class="text-slate-500 font-light text-xs flex flex-col items-center">
+              <h1 class="text-4xl text-slate-900 font-semibold">145</h1>
+              <h5>products</h5>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-md my-2 h-40 max-w-60 p-3 pointer hover:shadow-none w-full">
+            <div class="flex justify-between mb-3">
+              <h1 class="text-slate-900"></h1>
+              <a href="#" class=""
+                ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                  />
+                </svg>
+              </a>
+            </div>
+            <div class="text-slate-500 font-light text-xs flex flex-col items-center">
+              <h1 class="text-4xl text-slate-900 font-semibold">89</h1>
+              <h5>projects</h5>
+            </div>
+          </div>
+        </section>
+
+        <!-- RECENT NEWS -->
+        <section class="bg-white rounded-lg shadow-md text-xs font-normal text-slate-900 mt-4 p-3 text-center">
+          <h1 class="text-center text-slate-900 font-normal text-2xl">Recent <span class="font-semibold text-red-700">News</span></h1>
+          <table class="table-auto my-3 w-full p-40">
+            <thead>
+              <tr class="text-slate-900 text-base h-10">
+                <th class="font-semibold">Title</th>
+                <th class="font-semibold hidden md:inline">Date Created</th>
+                <th class="font-semibold">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="text-slate-700 text-xs font-light h-10 border-b-[1px] border-slate-300">
+                <td class="">Project build new RO at Hufa Semarang</td>
+                <td class="hidden md:inline">02-07-2019</td>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+              </tr>
+              <tr class="text-slate-700 text-xs font-light h-10 border-b-[1px] border-slate-300">
+                <td class="">Project build new RO at Hufa Semarang</td>
+                <td class="hidden md:inline">02-07-2019</td>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+              </tr>
+              <tr class="text-slate-700 text-xs font-light h-10 border-b-[1px] border-slate-300">
+                <td class="">Project build new RO at Hufa Semarang</td>
+                <td class="hidden md:inline">02-07-2019</td>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+              </tr>
+              <tr class="text-slate-700 text-xs font-light h-10">
+                <td class="">Project build new RO at Hufa Semarang</td>
+                <td class="hidden md:inline">02-07-2019</td>
+                <td><a href="">Edit</a> | <a href="">Delete</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <div class="flex justify-center">
+          <a href="" class="text-blue-500 text-justify text-xs my-2 font-normal">Show All</a>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const sidebar = document.getElementById("sidebar");
+      const searchbar = document.getElementById("searchbar");
+
+      function searchBtn() {
+        searchbar.classList.toggle("hide");
+      }
+
+      function handleClick() {
+        sidebar.classList.remove("-translate-x-full");
+      }
+
+      function close() {
+        sidebar.classList.add("-translate-x-full");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+{% extends 'base.html' %} {% block title %} <title>Home - Arcotama Indo Teknik</title> {% endblock title %} {% block content %}
+<section id="hero" class="mt-12 relative flex flex-col items-center">
+  <div class="px-6 md:px-16 flex flex-col justify-center items-center absolute top-56 z-50">
+    <h2 class="text-white text-center font-extralight tracking-widest" x-intersect="$el.classList.add('fadeInUp')">We are Certified Engineer</h2>
+    <h1 class="text-white font-light text-2xl md:text-4xl uppercase text-center" x-intersect="$el.classList.add('fadeInUp')">
+      focusing on <span class="text-red-700 font-bold">water purification</span> <br />
+      and <span class="text-red-700 font-bold">pharmaeutical</span>
+    </h1>
+    <button
+      href=""
+      class="p-3 mt-5 text-center font-normal text-slate-50 text-sm bg-red-700 rounded-sm hover:bg-red-800 hover:font-semibold max-w-[150px] transition duration-150 flex items-center justify-between"
+      x-intersect="$el.classList.add('fadeInUp')"
+    >
+      <span class="mr-2">Show More</span>
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+        </svg>
+      </span>
+    </button>
+  </div>
+  <div class="flex w-full h-[500px]">
+    <img class="w-full" src="{% static 'dist/img/bg-hero-arcotama.webp' %}" alt="" />
+    <div class="bg-gradient-to-t from-black w-full h-[500px] absolute"></div>
+  </div>
+</section>
+
+<section class="relative flex justify-center z-[900]" x-intersect="$el.classList.add('fadeInUp')">
+  <div class="bg-white -mt-12 shadow-xl mx-auto flex justify-center items-center w-[80%] md:w-[50%] h-24 rounded-sm">
+    <div class="container flex justify-evenly items-center md:px-16">
+      <div class="flex flex-col justify-center">
+        <p class="text-sm md:text-lg font-semibold text-center">145</p>
+        <p class="text-xxs md:text-xxs text-center text-slate-600 font-light">PRODUCTS</p>
+      </div>
+      <div class="flex flex-col justify-center">
+        <p class="text-sm md:text-lg font-semibold text-center">89</p>
+        <p class="text-xxs md:text-xxs text-center text-slate-600 font-light">PROJECTS</p>
+      </div>
+      <div class="flex flex-col justify-center">
+        <p class="text-sm md:text-lg font-semibold text-center">234</p>
+        <p class="text-xxs md:text-xxs text-center text-slate-600 font-light">EVENTS</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flex justify-center bg-slate-100 -mt-16 h-[410px] sm:h-[500px] md:h-[650px]">
+  <div class="container mt-24">
+    <div class="flex flex-col justify-center items-center mb-10 text-center">
+      <h1 class="text-2xl font-light text-slate-900" x-intersect="$el.classList.add('fadeInUp')">SEE OUR <span class="text-red-700 font-bold">PRODUCTS</span></h1>
+      <p class="text-xxs font-light text-slate-500 tracking-widest" x-intersect="$el.classList.add('fadeInUp')">Discover the products to support your need</p>
+    </div>
+    <div
+      class="w-3/4 min-w-[300px] mx-auto relative text-center"
+      x-data="{
+        activeSlide: 1,
+        slides: [
+          {id: 1, title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure libero ipsa provident consectetur inventore illo.', img:'{% static 'dist/img/project-1.jpg' %}'},
+          {id: 2, title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure libero ipsa provident consectetur inventore illo.', img:'{% static 'dist/img/project-2.jpg' %}'},
+          {id: 3, title: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure libero ipsa provident consectetur inventore illo.', img:'{% static 'dist/img/project-3.jpg' %}'}
+        ],
+        loop(){
+          setInterval(()=>{this.activeSlide = this.activeSlide === this.slides.length ? 1 : this.activeSlide + 1}
+            ,2000)
+        }
+      }"
+      x-init="loop"
+      x-intersect="$el.classList.add('scaleUp')"
+    >
+      <!-- Data Loop -->
+      <template x-for="slide in slides" :key="slide.id">
+        <div x-show="activeSlide === slide.id" class="relative h-40 md:h-96 overflow-hidden flex items-end bg-slate-500 text-white rounded-sm">
+          <div>
+            <img :src="slide.img" alt="" />
+            <div class="absolute bottom-1 bg-black w-full h-16 opacity-70">
+              <a href="">
+                <h1 class="font-bold text-xs md:text-base p-3" x-text="slide.title"></h1>
+              </a>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Back & Next -->
+      <div class="absolute inset-0 flex">
+        <div class="flex items-center justify-start w-1/2">
+          <button
+            @click="activeSlide = activeSlide === 1 ? slides.length : activeSlide - 1"
+            class="bg-slate-100 text-slate-500 hover:bg-blue-500 hover:text-white transition font-bold rounded-full w-10 h-max-10 shadow flex justify-center items-center ml-1 md:-ml-16"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-2 h-2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex items-center justify-end w-1/2">
+          <button
+            @click="activeSlide = activeSlide === slides.length ? 1 : activeSlide + 1"
+            class="bg-slate-100 text-slate-500 hover:bg-blue-500 hover:text-white transition font-bold rounded-full w-10 h-max-10 shadow flex justify-center items-center mr-1 md:-mr-16"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-2 h-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="absolute w-full flex items-center justify-center">
+        <template x-for="slide in slides" :key="slide.id">
+          <button
+            class="flex-1 w-4 h-2 mt-2 mx-1 mb-2 rounded-full overflow-hidden transition-colors duration-200 ease-out hover:bg-blue-600 hover:shadow-lg"
+            :class="{
+              'bg-slate-600': activeSlide === slide.id,
+              'bg-slate-400':activeSlide !== slide.id, 
+            }"
+            @click="activeSlide = slide.id"
+          ></button>
+        </template>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flex flex-wrap justify-center my-5">
+  <div class="container px-4 md:px-16 flex justify-center">
+    <div class="flex flex-wrap justify-center">
+      <h1 class="font-normal text-2xl w-full text-slate-900 text-center pt-5" x-intersect="$el.classList.add('fadeInUp')">
+        HIGH <span class="text-red-700 font-bold">QUALITY</span> AND <span class="text-red-700 font-bold">PRECISELY</span> CALCULATED
+      </h1>
+      <p class="font-light text-xxs text-center text-slate-500 tracking-widest" x-intersect="$el.classList.add('fadeInUp')">We commit to deliver customers satisfaction</p>
+      <p class="font-light text-xs text-slate-400 mt-3 leading-loose text-center" x-intersect="$el.classList.add('fadeInUp')">
+        We supply machinery, as well as engineering, industrial, and after-sales services to provide our customers with added value across the board. We consult on process technology, factory design, and engineering and provide project
+        management, commissioning and qualification as well as service and maintenance once your factory is operational. Arcotama solution circle is an overview of our scope of services for industrial projects. Your individual needs are our
+        specialty – we customize our services to help you achieve more success. Part of our commitment to increasing your profitability is reliable project management. Because this is the key to ensuring that everything runs on time and on
+        budget, especially when it comes to improving delivery times as well as increasing long-term performance and efficiency. From consultancy, concept design and equipment supply to comprehensive, full-scope industrial solutions or a
+        combination of project services, Arcotama is as committed to increasing your long-term success and profitability as you are.
+      </p>
+      <button href="" class="p-3 mt-5 text-center font-normal text-slate-50 bg-red-700 rounded-sm text-sm hover:bg-red-800 hover:font-semibold max-w-[150px] transition duration-150" x-intersect="$el.classList.add('fadeInUp')">
+        Show More
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="px-12 md:px-36 pt-10">
+  <hr />
+</section>
+
+<section class="flex flex-wrap justify-center items-center py-8 px-16">
+  <div class="container flex justify-center mb-3">
+    <div class="flex flex-wrap px-4 justify-center">
+      <hr />
+      <h1 class="font-light text-2xl text-center w-full text-slate-900 pt-5 uppercase" x-intersect="$el.classList.add('fadeInUp')">Recents <span class="text-red-700 font-bold">Projects</span></h1>
+      <p class="text-xxs font-light text-slate-500 tracking-widest text-center" x-intersect="$el.classList.add('fadeInUp')">We do our best to accomplished your goal</p>
+
+      <div class="flex justify-center md:px-16 w-full mt-1 relative">
+        <div class="card-wrapper flex flex-wrap w-full justify-around my-5">
+          <div class="card flex flex-col justify-center items-center rounded-sm rounded-b-2xl outline-2 bg-slate-200 shadow-xl w-full md:max-w-[25%] m-5 pb-5">
+            <div class="card-img w-auto h-auto">
+              <img src="dist/img/project-1.jpg" alt="" />
+            </div>
+            <div class="card-body p-3">
+              <h1 class="text-sm font-medium text-slate-900">Lorem ipsum dolor, sit amet.</h1>
+              <div class="text-xxs font-extralight text-slate-500 flex flex-col justify-center items-center relative">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perspiciatis odio minima numquam amet soluta, quod laboriosam unde temporibus mollitia, nobis consectetur iusto quo est dolorum earum magni pariatur?...
+                </p>
+                <button class="flex absolute -bottom-12 items-center justify-center w-10 h-10 rounded-full bg-red-700 p-1 text-xxs font-normal text-white hover:bg-red-900 hover:font-semibold">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card flex flex-col justify-center items-center rounded-sm rounded-b-2xl outline-2 bg-slate-200 shadow-xl w-full md:max-w-[25%] m-5 pb-5">
+            <div class="card-img w-auto h-auto">
+              <img src="dist/img/project-2.jpg" alt="" />
+            </div>
+            <div class="card-body p-3">
+              <h1 class="text-sm font-medium text-slate-900">Lorem ipsum dolor, sit amet.</h1>
+              <div class="text-xxs font-extralight text-slate-500 flex flex-col justify-center items-center relative">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perspiciatis odio minima numquam amet soluta, quod laboriosam unde temporibus mollitia, nobis consectetur iusto quo est dolorum earum magni pariatur?...
+                </p>
+                <button class="flex absolute -bottom-12 items-center justify-center w-10 h-10 rounded-full bg-red-700 p-1 text-xxs font-normal text-white hover:bg-red-900 hover:font-semibold">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card flex flex-col justify-center items-center rounded-sm rounded-b-2xl outline-2 bg-slate-200 shadow-xl w-full md:max-w-[25%] m-5 pb-5">
+            <div class="card-img w-auto h-auto">
+              <img src="dist/img/project-3.jpg" alt="" />
+            </div>
+            <div class="card-body p-3">
+              <h1 class="text-sm font-medium text-slate-900">Lorem ipsum dolor, sit amet.</h1>
+              <div class="text-xxs font-extralight text-slate-500 flex flex-col justify-center items-center relative">
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perspiciatis odio minima numquam amet soluta, quod laboriosam unde temporibus mollitia, nobis consectetur iusto quo est dolorum earum magni pariatur?...
+                </p>
+                <button class="flex absolute -bottom-12 items-center justify-center w-10 h-10 rounded-full bg-red-700 p-1 text-xxs font-normal text-white hover:bg-red-900 hover:font-semibold">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Start of Subscribe Form -->
+<section class="bg-slate-200 py-5">
+  <div class="container px-16 md:flex justify-around items-center">
+    <h1 class="font-normal md:ml-5 text-slate-900 text-xl my-2 text-center md:text-left md:w-1/3">Subscribe to our <br />newsletter</h1>
+    <div class="md:w-2/3">
+      <form action="" class="md:flex">
+        <input type="text" class="w-full my-2 rounded-sm p-2 placeholder:text-xs placeholder:font-light placeholder:tracking-wider md:w-2/3" placeholder="Your email here" />
+        <button class="bg-red-700 my-2 p-3 w-full text-white rounded-sm hover:bg-red-800 hover:font-semibold md:w-1/3">SUBSCRIBE</button>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- End of Subscribe Form -->
+{% endblock content %}

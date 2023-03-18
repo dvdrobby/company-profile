@@ -1,53 +1,52 @@
 {% extends 'base.html' %} {% block title %}
 <title>Contact - Arcotama Indo Teknik</title>
-{% endblock title %} {% block content %}
-
+{% endblock title %} {% load static %} {% block content %}
 <section class="min-h-screen flex flex-col items-center md:px-16 mt-36">
   <h1 class="text-2xl md:text-4xl text-slate-900 font-light text-center mb-5">Get in <span class="font-semibold text-red-700">Touch</span></h1>
-  <p class="text-base md:text-lg text-slate-500 font-extralight text-center">
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus sed laudantium, debitis architecto neque doloremque alias possimus nesciunt veniam explicabo harum aut dolore ipsa. Nemo cupiditate exercitationem eligendi minus
-    veritatis?
-  </p>
+  <p class="text-base md:text-lg text-slate-500 font-extralight text-center">If you have any questions or concerns, don't hesitate to get in touch.</p>
   <hr class="bg-slate-500 w-full m-10 text-center max-w-5xl" />
+
+  {% if messages %}
+
+  <div class="md:w-[80%] m-10 mb-10 p-5 text-center rounded-sm bg-slate-200">{% for message in messages %} {{message}} {% endfor %}</div>
+  {% endif %}
+
   <div class="flex flex-col md:flex-row md:justify-between space-y-16 md:space-y-0 md:space-x-3 md:w-[80%]">
     <div class="md:w-1/2 bg-slate-200 shadow-xl p-5">
-      <form action="" class="space-y-2 flex flex-col">
-        <input type="text" name="name" class="p-3 bg-white rounded-sm placeholder:text-sm placeholder:font-light" placeholder="Your name" required />
-        <input type="text" name="name" class="p-3 bg-white rounded-sm placeholder:text-sm placeholder:font-light" placeholder="Your company" required />
-        <input type="email" name="name" class="p-3 bg-white rounded-sm placeholder:text-sm placeholder:font-light" placeholder="Your email" required />
-        <input type="email" name="name" class="p-3 bg-white rounded-sm placeholder:text-sm placeholder:font-light" placeholder="Your subject" required />
-        <textarea type="text" name="name" class="p-3 bg-white rounded-sm placeholder:text-sm placeholder:font-light h-48" placeholder="Your message" required></textarea>
+      <form action="" class="space-y-2 flex flex-col" method="post">
+        {% csrf_token %} {{form.as_p}}
+
         <div class="bg-slate-300 w-44 h-16 flex justify-center items-center">CAPCTHA</div>
-        <button class="bg-red-700 hover:bg-red-800 rounded-sm p-3 text-white font-normal hover:font-semibold flex items-center justify-center space-x-2"><span>SEND</span></button>
+        <button type="submit" class="bg-red-700 hover:bg-red-800 rounded-sm p-3 text-white font-normal hover:font-semibold flex items-center justify-center space-x-2"><span>SEND</span></button>
       </form>
     </div>
+
+    {% for item in contact %}
     <div class="md:w-1/2 flex items-start bg-slate-200 justify-end">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7932.542726287859!2d106.99529657166103!3d-6.227909466417678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698c1e892c5573%3A0x292f03419da470d7!2sRuko%20Sinpasa!5e0!3m2!1sid!2sid!4v1674067659080!5m2!1sid!2sid"
-        style="border: 0"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        class="w-full h-full"
-      ></iframe>
+      <iframe src="{{ item.iframe }}" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
     </div>
+
+    {% endfor %}
   </div>
 </section>
 <!-- Start of Subscribe Form -->
 <section class="mt-24 mb-10 md:px-16 flex items-center justify-center flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-  <div class="border-4 border-slate-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-36 flex flex-col justify-center text-red-700 text-center p-3">
-    <div class="text-center my-2 flex justify-center scale-150">
+  {% for item in contact %}
+  <div class="border-4 border-red-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-52 flex flex-col justify-center text-red-700 text-center p-3">
+    <div class="text-center my-2 flex justify-center scale-150 h-1/4">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" class="text-center block" />
       </svg>
     </div>
-    <p class="text-sm md:text-base font-semibold text-slate-700 text-start">Address</p>
-    <p class="text-xs md:text-sm font-light text-slate-500 text-start">PT. Arcotama Indo Teknik</p>
-    <p class="text-xs md:text-sm font-light text-slate-500 text-start">RUKO SINPASA B 53 SUMMARECON BEKASI</p>
+    <div class="flex flex-col h-3/4">
+      <p class="text-sm md:text-base font-semibold text-slate-700 text-start">Address</p>
+      <p class="text-xs md:text-sm font-light text-slate-500 text-start">{{ item.company_name }}</p>
+      <p class="text-xs md:text-sm font-light text-slate-500 text-start">{{ item.address|safe }}</p>
+    </div>
   </div>
-  <div class="border-4 border-slate-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-36 flex flex-col justify-center text-red-700 text-center p-3">
-    <div class="text-center my-2 flex justify-center scale-150">
+  <div class="border-4 border-red-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-52 flex flex-col justify-center text-red-700 text-center p-3">
+    <div class="text-center my-2 flex justify-center scale-150 h-1/4">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
         <path
           stroke-linecap="round"
@@ -56,12 +55,14 @@
         />
       </svg>
     </div>
-    <p class="text-sm md:text-base font-semibold text-slate-700 text-start">Call Us</p>
-    <p class="text-xs md:text-sm font-light text-slate-500 text-start">(021) – 883 47 430</p>
-    <p class="text-xs md:text-sm font-light text-slate-500 text-start">+62 81380225805</p>
+    <div class="flex flex-col h-3/4">
+      <p class="text-sm md:text-base font-semibold text-slate-700 text-start">Call Us</p>
+      <p class="text-xs md:text-sm font-light text-slate-500 text-start">{% if item.phone != 'None' %} {{ item.phone }} {% else %} {% endif %}</p>
+      <p class="text-xs md:text-sm font-light text-slate-500 text-start">+62 {{ item.mobile_phone }}</p>
+    </div>
   </div>
-  <div class="border-4 border-slate-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-36 flex flex-col justify-center text-red-700 text-center p-3">
-    <div class="text-center my-2 flex justify-center scale-150">
+  <div class="border-4 border-red-700 rounded-r-2xl rounded-bl-2xl w-[70%] md:w-1/4 md:min-w-[25%] h-52 flex flex-col justify-center text-red-700 text-center p-3">
+    <div class="text-center my-2 flex justify-center scale-150 h-1/4">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
         <path
           stroke-linecap="round"
@@ -70,8 +71,12 @@
         />
       </svg>
     </div>
-    <p class="text-sm md:text-base font-semibold text-slate-700 text-start">E-mail</p>
-    <p class="text-xs md:text-sm font-light text-slate-500 text-start">rinaldo.krisna@arcotama.net</p>
+    <div class="flex flex-col h-3/4">
+      <p class="text-sm md:text-base font-semibold text-slate-700 text-start">E-mail</p>
+      <p class="text-xs md:text-sm font-light text-slate-500 text-start">{{ item.email }}</p>
+    </div>
   </div>
+
+  {% endfor %}
 </section>
 {% endblock content %}

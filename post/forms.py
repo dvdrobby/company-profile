@@ -33,27 +33,27 @@ class MessageForm(forms.ModelForm):
 
         widgets = {
             'name':forms.TextInput(attrs={
-                'class':'p-3 bg-white rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 'placeholder':'Your name',
                 'required': True,
                 }),
             'company':forms.TextInput(attrs={
-                'class':'p-3 bg-white rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 'placeholder':'Your company',
                 'required':True,
                 }),
             'email':forms.EmailInput(attrs={
-                'class':'p-3 bg-white rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 'placeholder':'Your email',
                 'required':True,
                 }),
             'subject':forms.TextInput(attrs={
-                'class':'p-3 bg-white rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 'placeholder':'Your subject',
                 'required':True,
                 }),
             'message':forms.Textarea(attrs={
-                'class':'p-3 bg-white rounded-sm w-full placeholder:text-sm placeholder:font-light h-48',
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light h-48',
                 'placeholder':'Your message',
                 'required':True,
                 }),

@@ -40,7 +40,7 @@ class Post(models.Model):
     location = models.CharField(max_length=25,verbose_name="Location")
     content = models.TextField(verbose_name="Content")
     publish = models.DateTimeField(auto_now_add=True, verbose_name='Published')
-    picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture', null=True, blank=True)
+    picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     tag = models.ManyToManyField(Tag)
     status=models.CharField(max_length=100, choices=STATUS_CHOICES, default='draft',verbose_name='Status')
@@ -68,7 +68,7 @@ class Contact(models.Model):
     address=models.CharField(max_length=255, verbose_name='Address')
     email=models.CharField(max_length=100, verbose_name='Email', default='sales@arcotama.com')
     phone=models.CharField(max_length=20, verbose_name='Phone', null=True, blank=True)
-    mobile_phone=models.IntegerField(verbose_name='Mobile Phone', default=1234567888)
+    mobile_phone=models.CharField(max_length=20, verbose_name='Mobile Phone', default=1234567888)
     site_map_url = models.CharField(max_length=255, verbose_name='Site Map', blank=True, null=True)
     iframe = models.TextField(verbose_name='Iframe', blank=True, null=True)
     facebook_url=models.CharField(max_length=150, verbose_name='Facebook', blank=True, null=True)
@@ -102,3 +102,4 @@ class Message(models.Model):
 
     def __str__(self):
         return self.email +' | '+ self.subject
+    

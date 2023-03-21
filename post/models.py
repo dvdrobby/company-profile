@@ -25,16 +25,6 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-class Tag(models.Model):
-    title= models.CharField(max_length=30, verbose_name='Tag Name')
-    slug = models.SlugField(max_length=100, unique=True, editable=False)
-
-    def save(self):
-        self.slug = slugify(self.title)
-        super(Tag, self).save()
-
-    def __str__(self):
-        return self.title
 
 class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name="Title")
@@ -44,7 +34,6 @@ class Post(models.Model):
     publish = models.DateTimeField(auto_now_add=True, verbose_name='Published')
     picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
-    tag = models.ManyToManyField(Tag)
     status=models.CharField(max_length=100, choices=STATUS_CHOICES, default='draft',verbose_name='Status')
 
     class Meta:
@@ -93,6 +82,7 @@ class Message(models.Model):
     subject=models.CharField(max_length=100, verbose_name='Subject')
     message=models.TextField(verbose_name='Message')
     status_message=models.CharField(max_length=25, choices=STATUS_MESSAGE, default='unread', verbose_name='Status')
+    
 
     def get_absolute_url(self):
         return '/contact'

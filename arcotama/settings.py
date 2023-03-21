@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'post',
     'setup',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,12 @@ CKEDITOR_CONFIGS = {
         'width': 'full',
     },
 }
+
+RECAPTCHA_PUBLIC_KEY = '6Lfiex0lAAAAAHznpyCRgKDYkBxF8y0NfSe5wSD0'
+RECAPTCHA_PRIVATE_KEY = '6Lfiex0lAAAAAHI8XKKHKWxUwScHiciPyBGjZ5kb'
+
+RECAPTCHA_REQUIRED_SCORE = 0.85
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

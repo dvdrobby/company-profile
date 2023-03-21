@@ -3,6 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.shortcuts import render, get_object_or_404
 from django.contrib.messages.views import SuccessMessageMixin
+from django.conf import settings
 
 from .models import About, Contact,Category, Post
 from .forms import MessageForm
@@ -137,7 +138,16 @@ class ContactView(SuccessMessageMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['contact']=Contact.objects.all()
+        # context['site_key'] = settings.RECAPTCHA_PUBLIC_KEY
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        print('post')
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        print('valid')
+        return super().form_valid(form)
     
     

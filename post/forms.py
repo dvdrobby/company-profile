@@ -1,12 +1,15 @@
 from django import forms
+
+from captcha.fields import ReCaptchaField
+
 from .models import Message
 
 
 class MessageForm(forms.ModelForm):
-
+    captcha = ReCaptchaField(label='')
     class Meta:
         model = Message
-        fields = ['name', 'company', 'email', 'subject', 'message']
+        fields = ['name', 'company', 'email', 'subject', 'message', 'captcha']
 
         labels = {
             'name':'',

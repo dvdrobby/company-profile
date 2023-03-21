@@ -16,7 +16,7 @@
       <img class="w-96 mx-auto" src="{{ post.picture.url }}" alt="" />
       <h1 class="text-2xl font-semibold text-slate-900 mb-3"><a href="{% url 'detail' post.slug %}">{{post.title}}</a></h1>
       <p class="text-xxs font-extralight text-slate-700 mb-3">{{post.location}}, {{post.publish}}</p>
-      <p class="text-sm font-light text-slate-700">{{ post.content }}</p>
+      <!-- <p class="text-sm font-light text-slate-700">{{ post.content|truncatechars:100 }}</p> -->
     </div>
     {% endfor %} {% else %}
     <p class="font-normal text-2xl">There is no post</p>

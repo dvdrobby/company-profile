@@ -1,4 +1,7 @@
 from django import forms
+
+from ckeditor.widgets import CKEditorWidget
+
 from post.models import Post, Contact, Message
 
 class MessageModelForm(forms.ModelForm):
@@ -82,8 +85,9 @@ class ContactModelForm(forms.ModelForm):
 
     
 class PostModelForm(forms.ModelForm):
-
+    content = forms.CharField(widget=CKEditorWidget)
     class Meta:
+        
         model = Post
         fields = ['title', 'location', 'picture', 'content', 'category']
 
@@ -105,9 +109,9 @@ class PostModelForm(forms.ModelForm):
             'picture':forms.FileInput(attrs={
                 'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 }),
-            'content':forms.Textarea(attrs={
-                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light h-48',
-                }),
+            # 'content':forms.TextInput(attrs={
+            #     'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+            #     }),
             'category':forms.Select(attrs={
                 'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 }),

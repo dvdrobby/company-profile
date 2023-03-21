@@ -1,21 +1,6 @@
 from django import forms
-from .models import Message, Subscriber
+from .models import Message
 
-class SubscribeForm(forms.ModelForm):
-
-    class Meta:
-        model = Subscriber
-        fields = ['email']
-
-        labels = {'email':''}
-
-        widgets = {
-            'email':forms.EmailInput(attrs={
-                'class':'w-full my-2 rounded-sm p-2 placeholder:text-xs placeholder:font-light placeholder:tracking-wider md:w-2/3',
-                'placeholder':'Your email here',
-                'required': True,
-            })
-        }
 
 class MessageForm(forms.ModelForm):
 

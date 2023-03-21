@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
@@ -10,7 +12,7 @@ from post.models import Message, Contact, Post, Category
 from .forms import PostModelForm, ContactModelForm, MessageModelForm
 
 
-class IndexListView(ListView):
+class IndexListView(LoginRequiredMixin,ListView):
     model = Post
     template_name = 'setup/index.html'
     context_object_name = 'events'
@@ -41,7 +43,7 @@ class IndexListView(ListView):
 
         return context
     
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model= Post
     form_class = PostModelForm
     template_name = 'setup/post_edit.html'
@@ -61,7 +63,7 @@ class ContactListView(ListView):
     template_name = 'arcotama_admin.html'
     context_object_name = 'contacts'
 
-class ContactUpdateView(UpdateView):
+class ContactUpdateView(LoginRequiredMixin, UpdateView):
     model= Contact
     form_class = ContactModelForm
     template_name = 'setup/contact_edit.html'
@@ -76,7 +78,7 @@ class ContactUpdateView(UpdateView):
 
         return context
 
-class PostListView(ListView):
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'setup/post_list.html'
     context_object_name = 'posts'    
@@ -90,7 +92,7 @@ class PostListView(ListView):
 
         return context
     
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostModelForm
     template_name = 'setup/create_post.html'
@@ -105,7 +107,7 @@ class PostCreateView(CreateView):
 
         return context
     
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
     template_name = 'setup/message_list.html'
     context_object_name = 'messages'
@@ -118,7 +120,7 @@ class MessageListView(ListView):
 
         return context
     
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     form_class = MessageModelForm
     template_name = 'setup/message_update.html'
@@ -160,7 +162,7 @@ class MessageUpdateView(UpdateView):
     
     
     
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message
     template_name = 'setup/message_detail.html'
     context_object_name = 'msg'

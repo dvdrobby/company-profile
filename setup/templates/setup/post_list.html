@@ -26,7 +26,7 @@
         {% for post in posts %}
         <tr class="text-slate-700 text-xs font-light h-10 border-b-[1px] border-slate-300">
           <td class="">{{post.title}}</td>
-          <td><a href=" {% url 'settings:edit-post' post.slug %} ">Edit</a> | <a href="">Delete</a></td>
+          <td><a href=" {% url 'setup:edit-post' post.slug %} ">Edit</a> | <a href="">Delete</a></td>
         </tr>
         {% endfor %}
       </tbody>

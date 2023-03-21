@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 
+from ckeditor_uploader.fields import RichTextUploadingField
+
 STATUS_CHOICES=(
     ('draft','Draft'),
     ('published','Published')
@@ -38,7 +40,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255, verbose_name="Title")
     slug = models.SlugField(unique=True, editable=False)
     location = models.CharField(max_length=25,verbose_name="Location")
-    content = models.TextField(verbose_name="Content")
+    content = RichTextUploadingField(verbose_name="Content")
     publish = models.DateTimeField(auto_now_add=True, verbose_name='Published')
     picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
@@ -58,7 +60,7 @@ class Post(models.Model):
 
 class About(models.Model):
     picture = models.ImageField(upload_to='about',null=True,blank=True, verbose_name='About Image')
-    content = models.TextField(verbose_name='About')
+    content = RichTextUploadingField(verbose_name='About')
 
     def __str__(self):
         return 'About'
@@ -69,20 +71,15 @@ class Contact(models.Model):
     email=models.CharField(max_length=100, verbose_name='Email', default='sales@arcotama.com')
     phone=models.CharField(max_length=20, verbose_name='Phone', null=True, blank=True)
     mobile_phone=models.CharField(max_length=20, verbose_name='Mobile Phone', default=1234567888)
-    site_map_url = models.CharField(max_length=255, verbose_name='Site Map', blank=True, null=True)
+    site_map_url = models.URLField(max_length=255, verbose_name='Site Map', blank=True, null=True)
     iframe = models.TextField(verbose_name='Iframe', blank=True, null=True)
-    facebook_url=models.CharField(max_length=150, verbose_name='Facebook', blank=True, null=True)
-    linkedin_url=models.CharField(max_length=150, verbose_name='Linkedin', blank=True, null=True)
-    instagram_url=models.CharField(max_length=150, verbose_name='Instagram', blank=True, null=True)
+    facebook_url=models.URLField(max_length=150, verbose_name='Facebook', blank=True, null=True)
+    linkedin_url=models.URLField(max_length=150, verbose_name='Linkedin', blank=True, null=True)
+    instagram_url=models.URLField(max_length=150, verbose_name='Instagram', blank=True, null=True)
 
     def __str__(self):
         return 'Contact'
 
-class Subscriber(models.Model):
-    email=models.CharField(max_length=25, verbose_name='Email')
-
-    def __str__(self):
-        return self.email
 
 STATUS_MESSAGE=(
     ('read','Read'),

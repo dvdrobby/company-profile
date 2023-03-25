@@ -15,5 +15,5 @@ class PostAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Post, PostAdmin)
 # admin.site.register(Contact)
-# admin.site.register(About)
+admin.site.register(About)
 admin.site.register(Message)

@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.views.generic import DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, CreateView
@@ -8,8 +9,8 @@ from django.urls import reverse_lazy
 
 from datetime import datetime
 
-from post.models import Message, Contact, Post, Category
-from .forms import PostModelForm, ContactModelForm, MessageModelForm
+from post.models import Message, Contact, Post, Category, About
+from .forms import PostModelForm, ContactModelForm, MessageModelForm, AboutModelForm, CategoryModelForm
 
 
 class IndexListView(LoginRequiredMixin,ListView):
@@ -37,31 +38,22 @@ class IndexListView(LoginRequiredMixin,ListView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']=Contact.objects.all()
+        context['abouts']=About.objects.all()
 
         context['product_count']=products.count()
         context['project_count']=projects.count()
 
         return context
     
-class PostUpdateView(LoginRequiredMixin, UpdateView):
-    model= Post
-    form_class = PostModelForm
-    template_name = 'setup/post_edit.html'
-    success_url = reverse_lazy('setup:post')
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        context['title'] = 'Edit Post'
-        context['message_count'] = Message.objects.filter(status_message ='unread').count()
-        context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
-        context['contact']= Contact.objects.all()
-
-        return context
 
 class ContactListView(ListView):
     model = Contact
     template_name = 'arcotama_admin.html'
     context_object_name = 'contacts'
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['abouts'] = About.objects.all()
 
 class ContactUpdateView(LoginRequiredMixin, UpdateView):
     model= Contact
@@ -75,6 +67,39 @@ class ContactUpdateView(LoginRequiredMixin, UpdateView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
+
+        return context
+    
+class AboutUpdateView(LoginRequiredMixin, UpdateView):
+    model= About
+    form_class = AboutModelForm
+    template_name = 'setup/about_edit.html'
+    success_url = reverse_lazy('setup:index')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Edit About'
+        context['message_count'] = Message.objects.filter(status_message ='unread').count()
+        context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
+        context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
+
+        return context
+
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    model= Post
+    form_class = PostModelForm
+    template_name = 'setup/post_edit.html'
+    success_url = reverse_lazy('setup:post')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Edit Post'
+        context['message_count'] = Message.objects.filter(status_message ='unread').count()
+        context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
+        context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
 
         return context
 
@@ -82,6 +107,8 @@ class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'setup/post_list.html'
     context_object_name = 'posts'    
+    ordering = '-publish'
+    paginate_by = 10
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -89,6 +116,27 @@ class PostListView(LoginRequiredMixin, ListView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
+
+        return context
+    
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    model = Post
+    template_name = 'setup/delete.html'
+    context_object_name = 'post'
+    success_url = reverse_lazy('setup:post')
+
+    def form_invalid(self, form):
+        print(form.errors)
+        return super().form_invalid(form)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Post List'
+        context['message_count'] = Message.objects.filter(status_message ='unread').count()
+        context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
+        context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
 
         return context
     
@@ -104,8 +152,13 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
 
         return context
+    
+    def form_invalid(self, form) :
+        print(form.errors)
+        return super().form_invalid(form)
     
 class MessageListView(LoginRequiredMixin, ListView):
     model = Message
@@ -117,6 +170,7 @@ class MessageListView(LoginRequiredMixin, ListView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
 
         return context
     
@@ -133,7 +187,8 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
-        
+        context['abouts'] = About.objects.all()
+
         return context
       
     def get_form_kwargs(self):
@@ -173,5 +228,27 @@ class MessageDetailView(LoginRequiredMixin, DetailView):
         context['message_count'] = Message.objects.filter(status_message ='unread').count()
         context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
         context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
 
         return context
+    
+class CategoryListView(LoginRequiredMixin, ListView):
+    model =Category
+    template_name = 'setup/cat_list.html'
+    context_object_name = 'categories'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['title'] = 'Add Post'
+        context['message_count'] = Message.objects.filter(status_message ='unread').count()
+        context['datetime']= datetime.now().strftime("%A, %d %B %Y ")
+        context['contact']= Contact.objects.all()
+        context['abouts'] = About.objects.all()
+
+        return context
+    
+class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+    model = Category
+    form_class= CategoryModelForm
+    template_name = 'setup/cat_edit.html'
+    success_url = reverse_lazy('setup:category')

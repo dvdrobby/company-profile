@@ -98,7 +98,7 @@
         {% for event in events %}
         <tr class="text-slate-700 text-xs font-light h-10 border-b-[1px] border-slate-300">
           <td class="">{{event.title}}</td>
-          <td><a href=" {% url 'setup:edit-post' event.slug %} ">Edit</a> | <a href="">Delete</a></td>
+          <td><a href=" {% url 'setup:edit-post' event.slug %} ">Edit</a> | <a href="{% url 'setup:delete' event.slug %}">Delete</a></td>
         </tr>
         {% endfor %}
       </tbody>

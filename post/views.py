@@ -17,7 +17,7 @@ class Product(ListView):
     model = Post
     context_object_name = 'posts'
 
-    paginate_by = 10
+    paginate_by = '5'
 
     def get_queryset(self):
         category = get_object_or_404(Category, title__icontains = 'product')
@@ -37,7 +37,7 @@ class Project(ListView):
     model = Post
     context_object_name = 'posts'
 
-    paginate_by = 10
+    paginate_by = '5'
 
     def get_queryset(self):
         category = get_object_or_404(Category, title__icontains = 'project')
@@ -57,7 +57,7 @@ class Event(ListView):
     model = Post
     context_object_name = 'posts'
 
-    paginate_by = 10
+    paginate_by = '5'
 
     def get_queryset(self):
         category = get_object_or_404(Category, title__icontains = 'event')
@@ -89,7 +89,7 @@ class Index(ListView):
         products_category = get_object_or_404(Category, title__icontains = 'product')
         projects_category = get_object_or_404(Category, title__icontains = 'project')
         events_category = get_object_or_404(Category, title__icontains = 'event')
-
+        print(settings.BASE_DIR)
         products = Post.objects.filter(category = products_category).order_by('-publish')
         projects = Post.objects.filter(category = projects_category).order_by('-publish')
         events = Post.objects.filter(category = events_category)
@@ -150,4 +150,5 @@ class ContactView(SuccessMessageMixin, CreateView):
         print('valid')
         return super().form_valid(form)
     
-    
+def handler404(request, exception):
+    return render(request, '404.html')

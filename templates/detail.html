@@ -26,7 +26,12 @@
 
         <div class="flex flex-col md:w-2/3 space-y-8">
             <div class="p-10">
-              <img class="w-96 mx-auto mb-2" src="{{ post.picture.url }}" alt="" />
+              
+            {% if post.picture %}
+            <img class="w-96 mx-auto" src="{{ post.picture.url }}" alt="" />
+            {% else %}
+            <img class="w-96 mx-auto" src="../media/uploads/no-image.jpg" alt="" />
+            {% endif %}
               <h1 class="text-2xl font-semibold text-slate-900 mb-3">{{ post.title }}</h1>
                 <p class="text-xxs font-extralight text-slate-700 mb-3">{{post.location}}, {{post.publish}}</p>
                 <p class="text-sm font-light text-slate-700">

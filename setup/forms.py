@@ -1,8 +1,8 @@
 from django import forms
 
-from ckeditor.widgets import CKEditorWidget
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from post.models import Post, Contact, Message
+from post.models import Post, Contact, Message, About, Category
 
 class MessageModelForm(forms.ModelForm):
     class Meta:
@@ -85,19 +85,16 @@ class ContactModelForm(forms.ModelForm):
 
     
 class PostModelForm(forms.ModelForm):
-    content = forms.CharField(widget=CKEditorWidget)
+    content = forms.CharField(widget=CKEditorUploadingWidget)
     class Meta:
         
         model = Post
         fields = ['title', 'location', 'picture', 'content', 'category']
 
-        # labels = {
-        #     'title':'',
-        #     'location':'',
-        #     'content':'',
-        #     'picture':'',
-        #     'category':'',
-        # }
+        labels = {
+            'picture': 'Picture (800px x 600px) :'
+        }
+
 
         widgets = {
             'title':forms.TextInput(attrs={
@@ -108,11 +105,55 @@ class PostModelForm(forms.ModelForm):
                 }),
             'picture':forms.FileInput(attrs={
                 'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'required':False,
                 }),
-            # 'content':forms.TextInput(attrs={
-            #     'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
-            #     }),
+            'content':forms.TextInput(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                }),
             'category':forms.Select(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                }),
+        }
+
+class AboutModelForm(forms.ModelForm):
+
+    content = forms.CharField(widget=CKEditorUploadingWidget)
+
+    class Meta:
+        
+        model = About
+        fields = ['content', 'picture']
+
+
+        widgets = {
+            'content':forms.TextInput(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                }),
+            'picture':forms.FileInput(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                'required':False,
+                }),
+        }
+
+class CategoryModelForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['title', 'heading', 'caption']
+
+        labels = {
+            'title':'',
+            'heading':'',
+            'caption':'',
+        }
+
+        widgets = {
+            'title':forms.TextInput(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                }),
+            'heading':forms.TextInput(attrs={
+                'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
+                }),
+            'caption':forms.TextInput(attrs={
                 'class':'p-3 bg-white text-sm font-light rounded-sm w-full placeholder:text-sm placeholder:font-light',
                 }),
         }

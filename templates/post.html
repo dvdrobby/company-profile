@@ -13,14 +13,46 @@
   <div class="flex flex-col space-y-8 md:w-3/4">
     {% if posts %} {% for post in posts %}
     <div class="bg-slate-200 rounded-bl-2xl p-10 shadow-xl">
+      {% if post.picture %}
       <img class="w-96 mx-auto" src="{{ post.picture.url }}" alt="" />
+      {% else %}
+      <img class="w-96 mx-auto" src="../media/uploads/no-image.jpg" alt="" />
+      {% endif %}
+
       <h1 class="text-2xl font-semibold text-slate-900 mb-3"><a href="{% url 'detail' post.slug %}">{{post.title}}</a></h1>
       <p class="text-xxs font-extralight text-slate-700 mb-3">{{post.location}}, {{post.publish}}</p>
-      <!-- <p class="text-sm font-light text-slate-700">{{ post.content|truncatechars:100 }}</p> -->
+      <p class="text-sm font-light text-slate-700">{% autoescape off %} {{ post.content|truncatechars:100 }} {% endautoescape %}</p>
     </div>
     {% endfor %} {% else %}
     <p class="font-normal text-2xl">There is no post</p>
     {% endif %}
   </div>
 </section>
-{% endblock content %}
+{% if page_obj.has_other_pages %}
+<section class="flex justify-center items-center gap-1 font-light text-sm mt-16">
+  {% if page_obj.has_previous %}
+  <a href="?page=1" class="p-3 bg-slate-200 rounded-lg hover:bg-red-700 hover:text-white duration-300">First Page</a>
+  <a href="?page={{page_obj.previous_page_number}}" class="p-3 bg-slate-200 rounded-lg hover:bg-red-700 hover:text-white duration-300">Prev</a>
+
+  {% else %}
+  <span></span>
+
+  {% endif %} {% if page_obj.number|add:'-2' > 1 %}
+  <span href="?page={{page_obj.number|add:'-2'}}" class="p-3 bg-slate-200 rounded-lg hover:bg-red-700 hover:text-white duration-300">&hellip;</span>
+  {% endif %} {% for i in page_obj.paginator.page_range %} {% if page_obj.number == i %}
+  <span href="?page={{i}}" class="p-3 bg-slate-200 rounded-lg page-current">{{i}}</span>
+  {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+  <a href="?page={{i}}" class="p-3 bg-slate-200 rounded-lg">{{i}}</a>
+  {% endif %} {% endfor %} {% if page_obj.paginator.num_pages > page_obj.number|add:'2' %}
+  <span href="?page={{page_obj.number|add:'-2'}}" class="p-3 bg-slate-200 rounded-lg">&hellip;</span>
+  <a href="?page={{i}}" class="p-3 bg-slate-200 rounded-lg">{{i}}</a>
+  <a href="?page={{page_obj.pagination.num_pages}}" class="p-3 bg-slate-200 rounded-lg">{{page_obj.pagination.num_pages}}</a>
+  {% endif %} {% if page_obj.has_next %}
+  <a href="?page={{page_obj.next_page_number}}" class="p-3 bg-slate-200 rounded-lg hover:bg-red-700 hover:text-white duration-300">Next</a>
+  <a href="?page={{ page_obj.paginator.num_pages }}" class="p-3 bg-slate-200 rounded-lg hover:bg-red-700 hover:text-white duration-300">Last Page</a>
+  {% else %}
+  <span></span>
+
+  {% endif %}
+</section>
+{% endif %} {% endblock content %}

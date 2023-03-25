@@ -32,7 +32,7 @@ class Post(models.Model):
     location = models.CharField(max_length=25,verbose_name="Location")
     content = RichTextUploadingField(verbose_name="Content")
     publish = models.DateTimeField(auto_now_add=True, verbose_name='Published')
-    picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture')
+    picture = models.ImageField(upload_to='uploads/%Y/%m/%d', verbose_name='Picture', default='uploads/no-image.jpg')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Category')
     status=models.CharField(max_length=100, choices=STATUS_CHOICES, default='draft',verbose_name='Status')
 
@@ -48,8 +48,8 @@ class Post(models.Model):
         return self.title
 
 class About(models.Model):
-    picture = models.ImageField(upload_to='about',null=True,blank=True, verbose_name='About Image')
-    content = RichTextUploadingField(verbose_name='About')
+    picture = models.ImageField(upload_to='uploads/about',null=True,blank=True, verbose_name='About Image')
+    content = RichTextUploadingField(verbose_name='About', null=True, blank=True)
 
     def __str__(self):
         return 'About'

@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -23,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a4q7%os1dr#_rpi(vmlyzae&)nsvl#-q36@#*14cfv@h1$_^e$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'ckeditor_uploader',
     'post',
+    'setup',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +56,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'arcotama.urls'
+
+
 
 TEMPLATES = [
     {
@@ -116,15 +123,35 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+            os.path.join(BASE_DIR / 'static')
+            ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR / 'static')
 
-MEDIA_URL = 'media/'
 
-MEDIA_ROOT = BASE_DIR / 'static/media'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+CKEDITOR_UPLOAD_PATH = '/uploads/'
+# CKEDITOR_IMAGE_BACKEND = "pillow"
+# AWS_QUERYSTRING_AUTH = False
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 'full',
+        'width': 'full',
+    },
+}
+
+RECAPTCHA_PUBLIC_KEY = '6Lfiex0lAAAAAHznpyCRgKDYkBxF8y0NfSe5wSD0'
+RECAPTCHA_PRIVATE_KEY = '6Lfiex0lAAAAAHI8XKKHKWxUwScHiciPyBGjZ5kb'
+
+RECAPTCHA_REQUIRED_SCORE = 0.85
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

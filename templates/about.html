@@ -3,9 +3,9 @@
 {% endblock title %} {% load static %} {% block content %}
 <section class="min-h-screen flex flex-col items-center md:px-16 mt-36">
   {% for item in about %}
-  <img class="max-w-5xl max-w-[70%]" src="{% static item.picture.url %}" alt="employee" />
-  <h2 class="text-slate-900 font-light text-2xl my-10">ABOUT OUR <span class="text-red-700 font-bold text-2xl">COMPANY</span></h2>
-  <p class="text-slate-500 text-sm font-light text-center w-full lg:max-w-[80%] leading-6 mb-20 p-5">{{ item.content }}</p>
+  <img class="max-w-5xl max-w-[70%]" src="{{ item.picture.url }}" alt="employee" />
+  <h2 class="text-slate-900 font-light text-2xl mt-10">ABOUT OUR <span class="text-red-700 font-bold text-2xl">COMPANY</span></h2>
+  <p class="text-slate-500 text-sm font-light text-center w-full lg:max-w-[80%] leading-6 mb-20 md:px-16">{{ item.content|safe }}</p>
   {% endfor %}
 </section>
 {% endblock content %}

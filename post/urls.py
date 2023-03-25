@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-from .views import About, Product, Project, Event, Index, ContactView, ProductDetail
+from .views import About, Product, Project, Event, Index, ContactView, ProductDetail, handler404
 
 urlpatterns = [
     path('user/', views.admin , name='user-admin'),
@@ -12,5 +12,5 @@ urlpatterns = [
     path('contact/', ContactView.as_view() , name='contact'),
     path('product/<slug:slug>', ProductDetail.as_view(), name = 'detail'),
     path('', Index.as_view() , name='index'),
-
+    path('', handler404)
 ]
